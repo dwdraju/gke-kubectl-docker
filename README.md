@@ -3,7 +3,7 @@
 * Easy integration with Google Cloud service account
 * Can be used on CI-CD pipeline
 
-## GCloud Authentication
+### GCloud Authentication
 Pull image from Docker Hub:
 ```
 docker pull dwdraju/gke-kubectl-docker:latest
@@ -11,7 +11,7 @@ docker pull dwdraju/gke-kubectl-docker:latest
 #### Browser Authentication
 To authenticate the gcloud sdk docker image using browser authentication, run
 ```
-docker run -ti --name gsdocker dwdraju/gke-kubectl-docker gcloud auth login
+docker run -ti --name gke-kubectl dwdraju/gke-kubectl-docker gcloud auth login
 ```
 
 #### Service Account Authentication
@@ -27,15 +27,22 @@ docker run -ti -v $(pwd)/service-account-key.json:/service-account-key.json --na
 
 Additional flags like `ACCOUNT_NAME`, `--prompt-for-password` can be used during authentication. Full list is on [Cloud SDK doc](https://cloud.google.com/sdk/gcloud/reference/auth/activate-service-account)
 
-## Set Cluster Credentials
+
+### Get cluster list
+
+```
+docker run --rm -ti --volumes-from gke-kubectl dwdraju/gke-kubectl-docker gcloud container clusters list
+```
+
+## Set Cluster Credentials for cluster
 * Set cluster name: `export CLUSTER=mycluster`
 * Set zone of cluster: `export CLUSTER_ZONE=zone`
 
 ```
-docker run --rm -ti --volumes-from gke-kubectl dwdraju/alpine-gcloud gcloud container clusters get-credentials CLUSTER --zone CLUSTER_ZONE
+docker run --rm -ti --volumes-from gke-kubectl dwdraju/gke-kubectl-docker gcloud container clusters get-credentials $CLUSTER --zone $CLUSTER_ZONE
 ```
 
 ## Run kubectl Command
 ```
-docker run --rm -ti --volumes-from gke-kubectl dwdraju/alpine-gcloud kubectl get pods
+docker run --rm -ti --volumes-from gke-kubectl dwdraju/gke-kubectl-docker kubectl get pods
 ```
