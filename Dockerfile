@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.14.1
 
 ENV PATH /google-cloud-sdk/bin:$PATH
 RUN apk --no-cache add \
